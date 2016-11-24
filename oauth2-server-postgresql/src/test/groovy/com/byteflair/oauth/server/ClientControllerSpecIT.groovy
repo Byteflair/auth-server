@@ -38,7 +38,7 @@ import static io.restassured.RestAssured.given
         'keystore.key.alias=dev_oauth_jwt_key',
         'keystore.key.password=password',
         'logging.config=classpath:logback-development.xml',
-        'logging.level.com.gpsauriga.sso=DEBUG',
+        'logging.level.com.byteflair.oauth=DEBUG',
         'logging.level.org.springframework.security=DEBUG'])
 @Slf4j
 @Stepwise
@@ -65,7 +65,7 @@ class ClientControllerSpecIT extends Specification {
                     autoapprove           : 'true'
             ]
 
-    String username = "mercury"
+    String username = "byteflair"
 
     String password = "secret"
 

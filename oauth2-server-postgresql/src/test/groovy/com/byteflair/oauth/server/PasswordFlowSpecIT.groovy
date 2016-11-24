@@ -35,7 +35,7 @@ import static io.restassured.RestAssured.given
         'keystore.key.alias=dev_oauth_jwt_key',
         'keystore.key.password=password',
         'logging.config=classpath:logback-development.xml',
-        'logging.level.com.gpsauriga.sso=DEBUG',
+        'logging.level.com.byteflair.oauth=DEBUG',
         'logging.level.org.springframework.security=DEBUG'])
 @Slf4j
 @Stepwise
@@ -45,7 +45,7 @@ class PasswordFlowSpecIT extends Specification {
 
     String username = "admin"
     String password = "secret"
-    String client_id = "mercury"
+    String client_id = "byteflair"
     String client_secret = "secret"
 
     def "That can authenticate user"() {

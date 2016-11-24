@@ -25,7 +25,7 @@ server:
 logging:
   config: classpath:logback-development.xml
   level:
-    com.gpsauriga.sso: DEBUG
+    com.byteflair.oauth: DEBUG
     org.springframework.security: DEBUG
 
 
