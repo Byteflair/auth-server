@@ -17,5 +17,4 @@ INSERT INTO userdetails (detailkey, detailvalue, iduser) VALUES ('key3', 'valor1
 
 INSERT INTO rolesperuser  (iduser, idrole) VALUES (1,1);
 INSERT INTO rolesperuser  (iduser, idrole) VALUES (1,2);
-INSERT INTO rolesperuser  (iduser, idrole) VALUES (1,3);
 
