@@ -9,35 +9,11 @@ import spock.lang.Specification
 import spock.lang.Stepwise
 
 import static io.restassured.RestAssured.given
-
 /**
  * Created by calata on 21/11/16.
  */
-
 @SpringBootTest(classes = ITConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = ['spring.profiles.active=dev',
-        'spring.jpa.database=MYSQL',
-        'spring.jpa.show-sql=true',
-        'spring.jpa.generate-ddl=false',
-        'spring.datasource.initialize=true',
-        'spring.datasource.host=localhost',
-        'spring.datasource.port=3306',
-        'spring.datasource.dbname=oauth_db',
-        'spring.datasource.username=oauth_server',
-        'spring.datasource.password=password',
-        'spring.datasource.platform=mysql',
-        'spring.datasource.url=jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp',
-        'spring.datasource.driver-class-name=com.mysql.jdbc.Driver',
-        'spring.data.rest.returnBodyOnCreate=true',
-        'spring.data.rest.returnBodyOnupdate=true',
-        'server.contextPath=/',
-        'keystore.path=target/keystore.jks',
-        'keystore.password=password',
-        'keystore.key.alias=dev_oauth_jwt_key',
-        'keystore.key.password=password',
-        'logging.config=classpath:logback-development.xml',
-        'logging.level.com.byteflair.oauth=DEBUG',
-        'logging.level.org.springframework.security=DEBUG'])
+@TestPropertySource(locations = ["classpath:application.yml"])
 @Slf4j
 @Stepwise
 class PasswordFlowSpecIT extends Specification {

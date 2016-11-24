@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import
  * Created by Daniel Cerecedo <daniel.cerecedo@byteflair.com> on 31/10/16.
  */
 @SpringBootApplication
-@Import([OauthServerConfig])
+@Import([OauthServerConfig.class])
 class ITConfig {
 
 }

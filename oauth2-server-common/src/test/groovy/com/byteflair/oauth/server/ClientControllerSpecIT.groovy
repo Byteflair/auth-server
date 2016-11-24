@@ -17,29 +17,7 @@ import static io.restassured.RestAssured.given
  * Created by calata on 21/11/16.
  */
 @SpringBootTest(classes = ITConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = ['spring.profiles.active=dev',
-        'spring.jpa.database=POSTGRESQL',
-        'spring.jpa.show-sql=true',
-        'spring.jpa.generate-ddl=false',
-        'spring.datasource.initialize=true',
-        'spring.datasource.host=localhost',
-        'spring.datasource.port=5432',
-        'spring.datasource.dbname=oauth_db',
-        'spring.datasource.username=oauth_server',
-        'spring.datasource.password=password',
-        'spring.datasource.platform=postgresql',
-        'spring.datasource.url=jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp',
-        'spring.datasource.driver-class-name=org.postgresql.Driver',
-        'spring.data.rest.returnBodyOnCreate=true',
-        'spring.data.rest.returnBodyOnupdate=true',
-        'server.contextPath=/',
-        'keystore.path=target/keystore.jks',
-        'keystore.password=password',
-        'keystore.key.alias=dev_oauth_jwt_key',
-        'keystore.key.password=password',
-        'logging.config=classpath:logback-development.xml',
-        'logging.level.com.byteflair.oauth=DEBUG',
-        'logging.level.org.springframework.security=DEBUG'])
+@TestPropertySource(locations = ["classpath:application.yml"])
 @Slf4j
 @Stepwise
 class ClientControllerSpecIT extends Specification {
