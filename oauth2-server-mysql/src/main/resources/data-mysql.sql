@@ -1,7 +1,7 @@
 INSERT INTO oauth_client_details (client_id, client_secret, scope, authorized_grant_types, authorities, access_token_validity, refresh_token_validity, autoapprove) VALUES ('byteflair','$2a$12$6bEkR5.PZfut4t8azXk9fOqrBQzC8eu/iavS.iQGZrWKXIOYQ.ADW','read,write,trust','authorization_code,password,refresh_token,implicit,client_credentials','ROLE_TRUSTED_CLIENT',900,43200,'true');
 
 INSERT INTO roles (idrole, rolename) VALUES (1,'ROLE_ADMIN');
-INSERT INTO roles (idrole, rolename) VALUES (1,'ROLE_USER');
+INSERT INTO roles (idrole, rolename) VALUES (2,'ROLE_USER');
 
 INSERT INTO systems VALUES (13,'System');
 
