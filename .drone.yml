@@ -25,7 +25,7 @@ pipeline:
     #Ejecutar tests unitarios
     # - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true test
     #Ejecutar tests de integración
-     - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true -Dunit.skip=true verify
+     - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true -Dunit.skip=true verify -X
     #Desplegar jars en repo byteflair
     # - mvn -B -Ddocker.skip=true -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy
      - cp -a /root/.m2 /drone
