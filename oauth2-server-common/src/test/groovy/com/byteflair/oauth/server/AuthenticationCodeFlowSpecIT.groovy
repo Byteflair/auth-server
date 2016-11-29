@@ -36,7 +36,8 @@ class AuthenticationCodeFlowSpecIT extends Specification {
         // paso 1 (simulamos navegacion web)
         WebDriver driver = new HtmlUnitDriver();
 
-        driver.get("http://localhost:" + port + "/oauth/authorize?response_type=token&scope=read write trust&client_id=" + client_id);
+        driver.get("http://localhost:" + port + "/oauth/authorize?response_type=code&client_id="
+                + client_id + "&client_secret=" + client_secret + "&redirect_uri=http://byteflair.com/hola");
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("login")).click();
