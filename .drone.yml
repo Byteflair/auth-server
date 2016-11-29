@@ -60,6 +60,26 @@ pipeline:
      - cp -a /root/.m2 /drone
     when:
       branch: [master, dev, feat/drone]
+  test_postgres:
+    image: maven:3-jdk-8
+    commands:
+    #Copiar settings de maven
+     - if [ -d "/drone/.m2" ]; then
+           cp -a /drone/.m2 /root ;
+       fi
+    #Copiar settings de maven
+     - cp /drone/src/.drone/settings.xml /root/.m2
+    #Limpiar y compilar
+     - mvn -B -f oauth2-server-postgresql/pom.xml -Ddocker.skip=true -Dmaven.verify.skip=true clean install
+    #Ejecutar tests unitarios
+    # - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true test
+    #Ejecutar tests de integración
+     - mvn -B -f oauth2-server-postgresql/pom.xml -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true -Dunit.skip=true verify -X
+    #Desplegar jars en repo byteflair
+    # - mvn -B -Ddocker.skip=true -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy
+     - cp -a /root/.m2 /drone
+    when:
+      branch: [master, dev, feat/drone]
   #Guardamos la cache
   sftp_cache_save:
     image: plugins/sftp-cache
