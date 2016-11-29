@@ -21,7 +21,7 @@ pipeline:
     #Copiar settings de maven
      - cp /drone/src/.drone/settings.xml /root/.m2
     #Limpiar y compilar
-     - mvn -B-Djava.security.egd=file:/dev/./urandom clean -Ddocker.skip=true -Dunit.skip=true -Dint.skip=true install
+     - mvn -B -Djava.security.egd=file:/dev/./urandom clean -Ddocker.skip=true -Dunit.skip=true -Dint.skip=true install
     #Ejecutar tests unitarios
     # - mvn -B -Djava.security.egd=file:///dev/urandom -Ddocker.skip=true test
     #Ejecutar tests de integración
