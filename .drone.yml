@@ -31,6 +31,7 @@ pipeline:
      - cp -a /root/.m2 /drone
     when:
       branch: [master, dev, feat/drone]
+  #Guardamos la cache
   sftp_cache_save:
     image: plugins/sftp-cache
     server: dev.byteflair.com:22
