@@ -43,7 +43,7 @@ class ClientControllerSpecIT extends Specification {
                     autoapprove           : 'true'
             ]
 
-    String username = "byteflair"
+    String username = "admin-client"
 
     String password = "secret"
 

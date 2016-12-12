@@ -31,7 +31,7 @@ class ClientCredentialsFlowSpecIT extends Specification {
     @LocalServerPort
     int port
 
-    String username = "byteflair"
+    String username = "admin-client"
 
     String password = "secret"
 

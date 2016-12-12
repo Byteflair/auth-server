@@ -24,7 +24,7 @@ class AuthenticationCodeFlowSpecIT extends Specification {
     @LocalServerPort
     int port
 
-    String client_id = "byteflair"
+    String client_id = "admin-client"
     String client_secret = "secret"
     String username = "admin"
     String password = "secret"
