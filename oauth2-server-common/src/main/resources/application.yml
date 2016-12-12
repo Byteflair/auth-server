@@ -22,7 +22,7 @@ server:
 logging:
   config: classpath:logback-development.xml
   level:
-    com.byteflair.oauth: DEBUG
+    com.byteflair.oauth.server: DEBUG
     org.springframework.security: DEBUG
 ---
 
