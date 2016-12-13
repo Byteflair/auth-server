@@ -16,7 +16,7 @@
 
     <groupId>com.byteflair</groupId>
     <artifactId>oauth2-server</artifactId>
-    <version>0.2-RC</version>
+    <version>0.3-RC</version>
 
     <modules>
         <module>oauth2-server-common</module>
