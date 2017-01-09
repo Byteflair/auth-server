@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2017 Byteflair
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.byteflair.oauth.server.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +29,10 @@ import java.util.List;
  * Created by calata on 10/11/16.
  */
 @RestController
+@RequestMapping("/clients")
 public class ClientController {
 
+    public static final RequestMethod GET = RequestMethod.GET;
     private static final Integer ACCESS_TOKEN_VALIDITY = 900;
     private static final Integer REFRESH_TOKEN_VALIDITY = 43200;
 
@@ -31,7 +43,7 @@ public class ClientController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/client")
+    @RequestMapping(method = RequestMethod.POST)
     public BaseClientDetails createNewClient(@RequestBody BaseClientDetails clientDetails) {
 
         Assert.notNull(clientDetails);
@@ -64,7 +76,7 @@ public class ClientController {
         return clientDetails;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/client/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public BaseClientDetails getClientDetails(@PathVariable(value = "id") String id){
 
         BaseClientDetails clientDetails = null;
@@ -76,7 +88,7 @@ public class ClientController {
         return clientDetails;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/client")
+    @RequestMapping(method = RequestMethod.GET)
     public List<BaseClientDetails> getAllClientDetails() {
         List<BaseClientDetails> baseClientDetails = new ArrayList<>();
         List<ClientDetails> clientDetailsList = jdbcClientDetailsService.listClientDetails();
