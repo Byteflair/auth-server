@@ -43,6 +43,21 @@ class ClientControllerSpecIT extends Specification {
                     autoapprove           : 'true'
             ]
 
+    @Shared
+            client2 = [
+                    client_id             : 'test2',
+                    client_secret         : 'secret',
+                    scope                 : 'trust',
+                    authorized_grant_types: 'authorization_code,password,refresh_token,implicit,client_credentials',
+                    authorities           : 'ROLE_TRUSTED_CLIENT',
+                    access_token_validity : 900,
+                    refresh_token_validity: 43200,
+                    detail1               : 'detail1',
+                    detail2               : 'detail2',
+                    autoapprove           : 'true'
+            ]
+
+
     String username = "admin-client"
 
     String password = "secret"
@@ -180,5 +195,34 @@ class ClientControllerSpecIT extends Specification {
         then: "The client can't be created"
         response.then().log().all()
                 .statusCode(500)
+    }
+
+    def "Authenticate without ROLE_ADMIN"() {
+        given: "An existing client"
+        def username2 = "test"
+        def password2 = "secret"
+        when: "The client logs in"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().basic(username2, password2)
+                .post("http://localhost:" + port + "/oauth/token?grant_type=client_credentials")
+        def body = response.as(Map)
+        accessToken = body.get('access_token')
+        then: "The client obtains an access token"
+        response.then().log().all()
+                .statusCode(200)
+
+    }
+
+    def "That can't create client without ROLE_ADMIN"() {
+        given: "A client without scope"
+        //given: "An existing client"
+        when: "Send POST request to create client"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .body(client2)
+                .post("http://localhost:" + port + "/client")
+        then: "The client is created correctly and returns"
+        response.then().log().all()
+                .statusCode(403)
     }
 }
