@@ -27,7 +27,10 @@ logging:
   level:
     com.byteflair.oauth.server: DEBUG
     org.springframework.security: DEBUG
-
+api:
+  client:
+    access_token_validity: 900
+    refresh_token_validity: 43200
 
 ---
 

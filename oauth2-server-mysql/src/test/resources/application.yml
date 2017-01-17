@@ -16,6 +16,10 @@ spring:
   data.rest:
     returnBodyOnCreate: true
     returnBodyOnupdate: true
+api:
+  client:
+    access_token_validity: 900
+    refresh_token_validity: 43200
 keystore:
   path: target/keystore.jks
   password: password
