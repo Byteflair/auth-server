@@ -14,10 +14,10 @@ import com.byteflair.oauth.server.springUserDetails.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +28,7 @@ import javax.sql.DataSource;
  * Created by rpr on 24/07/16.
  */
 @Configuration
-@Order(-20)
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
@@ -65,12 +65,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .servletApi().rolePrefix("ROLE_")
             .and()
-            .formLogin().loginPage("/login").permitAll()
-            .and()
+            .formLogin().loginPage("/login").permitAll();
+
+        http
             .requestMatchers()
-            .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access")
-            .and()
-            .authorizeRequests()
+            .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access");
+
+        http.authorizeRequests()
             .antMatchers("/css/**", "/images/**").permitAll()
             .antMatchers(
                 "/alps/**",
@@ -79,8 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/roles/**",
                 "/users/**",
                 "/user-states/**",
-                "/user-details/**",
-                "/client/**").hasAuthority("ROLE_TRUSTED_CLIENT")
+                "/user-details/**").hasAuthority("ROLE_TRUSTED_CLIENT")
             .anyRequest().authenticated();
     }
 }

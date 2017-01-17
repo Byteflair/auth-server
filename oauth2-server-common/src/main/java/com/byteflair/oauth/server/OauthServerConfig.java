@@ -17,7 +17,8 @@ import javax.annotation.PreDestroy;
 @Import(value = {
     OAuth2AuthorizationConfig.class,
     SecurityConfig.class,
-    MvcConfig.class
+    MvcConfig.class,
+    Oauth2ResourceServer.class
 })
 @ComponentScan
 @EnableAutoConfiguration
