@@ -14,8 +14,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class Oauth2ResourceServer extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.requestMatcher(new AntPathRequestMatcher("/client/**"))
+        http.requestMatcher(new AntPathRequestMatcher("/clients/**"))
             .authorizeRequests()
-            .antMatchers("/client/**").hasRole("ADMIN");
+            .antMatchers("/clients/**").hasRole("ADMIN");
     }
 }

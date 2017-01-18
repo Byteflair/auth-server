@@ -82,7 +82,7 @@ class ClientControllerSpecIT extends Specification {
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
                 .body(client)
-                .post("http://localhost:" + port + "/client")
+                .post("http://localhost:" + port + "/clients")
         then: "The client is created correctly and returns"
         response.then().log().all()
                 .statusCode(200)
@@ -108,7 +108,7 @@ class ClientControllerSpecIT extends Specification {
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
                 .body(client)
-                .post("http://localhost:" + port + "/client")
+                .post("http://localhost:" + port + "/clients")
         then: "The client can't be created"
         response.then().log().all()
                 .statusCode(500)
@@ -119,7 +119,7 @@ class ClientControllerSpecIT extends Specification {
         when: "Send GET request "
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
-                .get("http://localhost:" + port + "/client/" + client['client_id'])
+                .get("http://localhost:" + port + "/clients/" + client['client_id'])
         then: "The client is returned"
         response.then().log().all()
                 .statusCode(200)
@@ -145,7 +145,7 @@ class ClientControllerSpecIT extends Specification {
         when: "Send GET request "
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
-                .get("http://localhost:" + port + "/client")
+                .get("http://localhost:" + port + "/clients")
         then: "List of clients is returned"
         response.then().log().all()
                 .statusCode(200)
@@ -163,7 +163,7 @@ class ClientControllerSpecIT extends Specification {
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
                 .body(clientAux)
-                .post("http://localhost:" + port + "/client")
+                .post("http://localhost:" + port + "/clients")
         then: "The client can't be created"
         response.then().log().all()
                 .statusCode(500)
@@ -177,7 +177,7 @@ class ClientControllerSpecIT extends Specification {
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
                 .body(clientAux)
-                .post("http://localhost:" + port + "/client")
+                .post("http://localhost:" + port + "/clients")
         then: "The client can't be created"
         response.then().log().all()
                 .statusCode(500)
@@ -191,7 +191,7 @@ class ClientControllerSpecIT extends Specification {
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
                 .body(clientAux)
-                .post("http://localhost:" + port + "/client")
+                .post("http://localhost:" + port + "/clients")
         then: "The client can't be created"
         response.then().log().all()
                 .statusCode(500)
@@ -220,7 +220,7 @@ class ClientControllerSpecIT extends Specification {
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
                 .auth().oauth2(accessToken)
                 .body(client2)
-                .post("http://localhost:" + port + "/client")
+                .post("http://localhost:" + port + "/clients")
         then: "The client is created correctly and returns"
         response.then().log().all()
                 .statusCode(403)

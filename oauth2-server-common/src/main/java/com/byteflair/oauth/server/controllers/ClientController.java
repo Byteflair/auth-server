@@ -16,7 +16,7 @@ public class ClientController {
     @Autowired
     private CustomClientDetailsService clientDetailsService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/client")
+    @RequestMapping(method = RequestMethod.POST, value = "/clients")
     public BaseClientDetails createNewClient(@RequestBody BaseClientDetails clientDetails) {
 
         BaseClientDetails createdClientDetail = clientDetailsService.createClientDetails(clientDetails);
@@ -24,7 +24,7 @@ public class ClientController {
         return createdClientDetail;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/client/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/clients/{id}")
     public BaseClientDetails getClientDetails(@PathVariable(value = "id") String id){
 
         BaseClientDetails clientDetails = clientDetailsService.getClientDetails(id);
@@ -32,7 +32,7 @@ public class ClientController {
         return clientDetails;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/client")
+    @RequestMapping(method = RequestMethod.GET, value = "/clients")
     public List<BaseClientDetails> getAllClientDetails() {
         List<BaseClientDetails> baseClientDetails = clientDetailsService.getAllClientDetails();
 
