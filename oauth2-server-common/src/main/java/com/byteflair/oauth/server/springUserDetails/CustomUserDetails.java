@@ -44,7 +44,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
     private boolean credentialsNonExpired = true;
     private boolean enabled;
     private String name;
-    private int systemId;
     private String phone;
     private String phone1;
     private String phone2;
@@ -58,7 +57,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
         this.enabled = user.getUserState().getId() == 1;
         this.authorities = new ArrayList<>();
         this.name = user.getName();
-        this.systemId = user.getSystem().getId();
         this.phone = user.getPhone();
         this.phone1 = user.getPhone1();
         this.phone2 = user.getPhone2();

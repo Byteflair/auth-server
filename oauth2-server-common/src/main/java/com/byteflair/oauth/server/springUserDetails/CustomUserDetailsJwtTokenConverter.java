@@ -46,7 +46,6 @@ public class CustomUserDetailsJwtTokenConverter extends JwtAccessTokenConverter 
 
         if (!authentication.isClientOnly()) {
             CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-            info.put("systemId", customUserDetails.getSystemId());
             info.put("name", customUserDetails.getName());
             info.put("email", customUserDetails.getEmail());
             if (customUserDetails.getPhone() != null) {

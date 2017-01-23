@@ -15,7 +15,6 @@ DROP TABLE IF EXISTS `groupmembers`;
 DROP TABLE IF EXISTS `userdetails`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `userstates`;
-DROP TABLE IF EXISTS `systems`;
 DROP TABLE IF EXISTS `groups`;
 
 CREATE TABLE `groups` (
@@ -23,12 +22,6 @@ CREATE TABLE `groups` (
   `groupname` varchar(45) NOT NULL,
   PRIMARY KEY (`idgroup`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `systems` (
-  `idsystem` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`idsystem`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `userstates` (
   `iduserstate` int(11) NOT NULL,
@@ -40,7 +33,6 @@ CREATE TABLE `users` (
   `iduser` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `idsystem` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `phone1` varchar(45) DEFAULT NULL,
@@ -51,9 +43,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`iduser`),
   UNIQUE KEY `login_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`),
-  KEY `systemstousers_idx` (`idsystem`),
   KEY `userstatestousers_idx` (`iduserstate`),
-  CONSTRAINT `systemstousers` FOREIGN KEY (`idsystem`) REFERENCES `systems` (`idsystem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `userstatestousers` FOREIGN KEY (`iduserstate`) REFERENCES `userstates` (`iduserstate`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

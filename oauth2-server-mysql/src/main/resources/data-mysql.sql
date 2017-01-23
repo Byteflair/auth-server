@@ -4,15 +4,13 @@ INSERT INTO `roles` (`idrole`, `rolename`) VALUES (1,'ROLE_ADMIN');
 INSERT INTO `roles` (`idrole`, `rolename`) VALUES (2,'ROLE_MANAGER');
 INSERT INTO `roles` (`idrole`, `rolename`) VALUES (3,'ROLE_USER');
 
-INSERT INTO `systems` VALUES (0,'Byteflair Test');
-
 INSERT INTO `userstates` (`iduserstate`, `description`) VALUES (0,'INACTIVE');
 INSERT INTO `userstates` (`iduserstate`, `description`) VALUES (1,'ACTIVE');
 INSERT INTO `userstates` (`iduserstate`, `description`) VALUES (2,'LOCKED');
 
-INSERT INTO `users` (`iduser`, `username`, `password`, `idsystem`, `name`, `email`, `iduserstate`) VALUES (1,'admin','$2a$12$6bEkR5.PZfut4t8azXk9fOqrBQzC8eu/iavS.iQGZrWKXIOYQ.ADW',0,'Administrator', 'admin@byteflair.com',1);
-INSERT INTO `users` (`iduser`, `username`, `password`, `idsystem`, `name`, `email`, `iduserstate`) VALUES (2,'manager','$2a$12$6bEkR5.PZfut4t8azXk9fOqrBQzC8eu/iavS.iQGZrWKXIOYQ.ADW',0,'Manager', 'manager@byteflair.com',1);
-INSERT INTO `users` (`iduser`, `username`, `password`, `idsystem`, `name`, `email`, `iduserstate`) VALUES (3,'user','$2a$12$6bEkR5.PZfut4t8azXk9fOqrBQzC8eu/iavS.iQGZrWKXIOYQ.ADW',0,'User', 'user@byteflair.com',1);
+INSERT INTO `users` (`iduser`, `username`, `password`, `name`, `email`, `iduserstate`) VALUES (1,'admin','$2a$12$6bEkR5.PZfut4t8azXk9fOqrBQzC8eu/iavS.iQGZrWKXIOYQ.ADW','Administrator', 'admin@byteflair.com',1);
+INSERT INTO `users` (`iduser`, `username`, `password`, `name`, `email`, `iduserstate`) VALUES (2,'manager','$2a$12$6bEkR5.PZfut4t8azXk9fOqrBQzC8eu/iavS.iQGZrWKXIOYQ.ADW','Manager', 'manager@byteflair.com',1);
+INSERT INTO `users` (`iduser`, `username`, `password`, `name`, `email`, `iduserstate`) VALUES (3,'user','$2a$12$6bEkR5.PZfut4t8azXk9fOqrBQzC8eu/iavS.iQGZrWKXIOYQ.ADW','User', 'user@byteflair.com',1);
 
 INSERT INTO `userdetails` (`detailkey`, `detailvalue`, `iduser`) VALUES ('key1', 'valor1', 1);
 INSERT INTO `userdetails` (`detailkey`, `detailvalue`, `iduser`) VALUES ('key2', 'valor1', 1);

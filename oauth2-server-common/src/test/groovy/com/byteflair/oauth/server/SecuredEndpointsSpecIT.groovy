@@ -128,20 +128,12 @@ public class SecuredEndpointsSpecIT extends Specification {
         checkResponseNotNullAndStatusOK(response)
     }
 
-    def "That can access /systems with client ROLE_ADMIN"() {
-        when: "Client request /systems"
-        def response = commonRequest("/systems")
-        then: "The client receives response"
-        checkResponseNotNullAndStatusOK(response)
-    }
-
     def "That can access /profile with client ROLE_ADMIN"() {
         when: "Client request /profile"
         def response = commonRequest("/profile")
         then: "The client receives response"
         checkResponseNotNullAndStatusOK(response)
     }
-
 
     def createNewClient() {
         //given: "An existing client"
@@ -205,13 +197,6 @@ public class SecuredEndpointsSpecIT extends Specification {
         checkResponseAndStatusForbidden(response)
     }
 
-    def "That can't access /systems without ROLE_ADMIN"() {
-        when: "Client request /systems"
-        def response = commonRequest("/systems")
-        then: "The client receives response"
-        checkResponseAndStatusForbidden(response)
-    }
-
     def "That can't access /profile without ROLE_ADMIN"() {
         when: "Client request /profile"
         def response = commonRequest("/profile")
@@ -265,13 +250,6 @@ public class SecuredEndpointsSpecIT extends Specification {
     def "That can access /groups with user ROLE_ADMIN"() {
         when: "User request /groups"
         def response = commonRequest("/groups")
-        then: "User receives response"
-        checkResponseNotNullAndStatusOK(response)
-    }
-
-    def "That can access /systems with user ROLE_ADMIN"() {
-        when: "User request /systems"
-        def response = commonRequest("/systems")
         then: "User receives response"
         checkResponseNotNullAndStatusOK(response)
     }
@@ -332,12 +310,6 @@ public class SecuredEndpointsSpecIT extends Specification {
         checkResponseAndStatusForbidden(response)
     }
 
-    def "That user user can't access /systems without ROLE_ADMIN"() {
-        when: "User request /systems"
-        def response = commonRequest("/systems")
-        then: "User receives response"
-        checkResponseAndStatusForbidden(response)
-    }
 
     def "That user can't access /profile without ROLE_ADMIN"() {
         when: "User request /profile"

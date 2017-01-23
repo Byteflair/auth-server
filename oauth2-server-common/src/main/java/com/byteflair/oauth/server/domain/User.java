@@ -26,7 +26,6 @@ public class User {
     *   `iduser` int(11) NOT NULL AUTO_INCREMENT,
     *   `username` varchar(45) NOT NULL,
     *   `password` varchar(100) NOT NULL,
-    *   `idsystem` int(11) NOT NULL,
     *   `name` varchar(100) NOT NULL,
     *   `phone` varchar(45) DEFAULT NULL,
     *   `phone1` varchar(45) DEFAULT NULL,
@@ -36,10 +35,8 @@ public class User {
     *   `iduserstate` int(11) NOT NULL,
     *   PRIMARY KEY (`iduser`),
     *   UNIQUE KEY `login_UNIQUE` (`username`),
-    *   KEY `systemstousers_idx` (`idsystem`),
     *   KEY `userstatestousers_idx` (`iduserstate`),
     *   CONSTRAINT `userstatestousers` FOREIGN KEY (`iduserstate`) REFERENCES `userstates` (`iduserstate`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    *   CONSTRAINT `systemstousers` FOREIGN KEY (`idsystem`) REFERENCES `systems` (`idsystem`) ON DELETE NO ACTION ON UPDATE NO ACTION
     * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     */
 
@@ -49,10 +46,6 @@ public class User {
     @Column(name = "password", length = 100)
     @JsonIgnore
     String password;
-
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "idsystem")
-    System system;
 
     @Column(name = "name", length = 100, nullable = false)
     String name;

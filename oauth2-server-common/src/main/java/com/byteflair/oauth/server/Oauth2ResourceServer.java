@@ -23,7 +23,6 @@ public class Oauth2ResourceServer extends ResourceServerConfigurerAdapter {
             new AntPathRequestMatcher("/user-details/**"),
             new AntPathRequestMatcher("/roles/**"),
             new AntPathRequestMatcher("/groups/**"),
-            new AntPathRequestMatcher("/systems/**"),
             new AntPathRequestMatcher("/profile/**"),
             new AntPathRequestMatcher("/alps/**"),
             new AntPathRequestMatcher("/css/**"),
@@ -36,7 +35,6 @@ public class Oauth2ResourceServer extends ResourceServerConfigurerAdapter {
                          "/user-details/**",
                          "/roles/**",
                          "/groups/**",
-                         "/systems/**",
                          "/alps/**",
                          "/profile/**").hasRole("ADMIN")
             .antMatchers("/css/**", "/images/**").permitAll();

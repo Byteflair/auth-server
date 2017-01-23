@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS groupmembers;
 DROP TABLE IF EXISTS userdetails;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS userstates;
-DROP TABLE IF EXISTS systems;
 DROP TABLE IF EXISTS groups;
 
 DROP SEQUENCE IF EXISTS groups_seq;
@@ -31,11 +30,6 @@ CREATE TABLE groups (
 
 ALTER SEQUENCE groups_seq RESTART WITH 2;
 
-CREATE TABLE systems (
-  idsystem int NOT NULL,
-  name varchar(45) NOT NULL,
-  PRIMARY KEY (idsystem)
-) ;
 
 CREATE TABLE userstates (
   iduserstate int NOT NULL,
@@ -49,7 +43,6 @@ CREATE TABLE users (
   iduser int NOT NULL DEFAULT NEXTVAL ('users_seq'),
   username varchar(45) NOT NULL,
   password varchar(100) NOT NULL,
-  idsystem int NOT NULL,
   name varchar(100) NOT NULL,
   phone varchar(45) DEFAULT NULL,
   phone1 varchar(45) DEFAULT NULL,
@@ -59,15 +52,12 @@ CREATE TABLE users (
   iduserstate int NOT NULL,
   PRIMARY KEY (iduser),
   CONSTRAINT login_UNIQUE UNIQUE  (username),
-  CONSTRAINT email_UNIQUE UNIQUE  (email)
- ,
-  CONSTRAINT systemstousers FOREIGN KEY (idsystem) REFERENCES systems (idsystem) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT email_UNIQUE UNIQUE  (email),
   CONSTRAINT userstatestousers FOREIGN KEY (iduserstate) REFERENCES userstates (iduserstate) ON DELETE NO ACTION ON UPDATE NO ACTION
 )  ;
 
 ALTER SEQUENCE users_seq RESTART WITH 2;
 
-CREATE INDEX systemstousers_idx ON users (idsystem);
 CREATE INDEX userstatestousers_idx ON users (iduserstate);
 
 CREATE SEQUENCE userdetails_seq;
