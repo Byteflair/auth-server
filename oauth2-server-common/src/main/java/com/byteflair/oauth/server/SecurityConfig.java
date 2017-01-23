@@ -72,15 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access");
 
         http.authorizeRequests()
-            .antMatchers("/css/**", "/images/**").permitAll()
-            .antMatchers(
-                "/alps/**",
-                "/systems/**",
-                "/groups/**",
-                "/roles/**",
-                "/users/**",
-                "/user-states/**",
-                "/user-details/**").hasAuthority("ROLE_TRUSTED_CLIENT")
             .anyRequest().authenticated();
     }
 }
