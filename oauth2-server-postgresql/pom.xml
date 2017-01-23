@@ -7,13 +7,13 @@
     <parent>
         <artifactId>oauth2-server</artifactId>
         <groupId>com.byteflair</groupId>
-        <version>0.4-RC</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
 
 
     <artifactId>oauth2-server-postgresql</artifactId>
     <groupId>com.byteflair</groupId>
-    <version>0.4-RC</version>
+    <version>0.5-SNAPSHOT</version>
 
     <properties>
         <start-class>com.byteflair.oauth.server.Oauth2ServerApp</start-class>
@@ -116,12 +116,12 @@
         <dependency>
             <groupId>com.byteflair</groupId>
             <artifactId>oauth2-server-common</artifactId>
-            <version>0.4-RC</version>
+            <version>0.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.byteflair</groupId>
             <artifactId>oauth2-server-common</artifactId>
-            <version>0.4-RC</version>
+            <version>0.5-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
