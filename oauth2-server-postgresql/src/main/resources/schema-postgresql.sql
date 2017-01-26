@@ -130,6 +130,8 @@ CREATE TABLE custom_templates (
   id int NOT NULL DEFAULT NEXTVAL ('templates_seq'),
   name varchar(20) NOT NULL,
   content bytea NOT NULL,
+  encoding varchar(20) NOT NULL,
+  last_modified timestamp(0) DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT name_unique UNIQUE  (name)
 );

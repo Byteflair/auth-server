@@ -1,12 +1,20 @@
 package com.byteflair.oauth.server.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by calata on 24/01/17.
  */
 @Entity
 @Table(name = "custom_templates")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class CustomTemplate {
 
     @Id
@@ -21,29 +29,12 @@ public class CustomTemplate {
     @Column(name = "content", nullable = false)
     private byte[] content;
 
-    public int getId() {
-        return id;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_modified")
+    private Date lastModified;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public TemplateName getName() {
-        return name;
-    }
-
-    public void setName(TemplateName name) {
-        this.name = name;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
-    }
+    @Column(name = "encoding", nullable = false)
+    private String encoding;
 
     public enum TemplateName {
         LOGIN

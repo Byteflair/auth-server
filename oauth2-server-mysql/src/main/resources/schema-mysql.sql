@@ -104,6 +104,8 @@ CREATE TABLE `custom_templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `content` blob NOT NULL,
+  `encoding` varchar(20) NOT NULL,
+  `last_modified` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -2,12 +2,12 @@ package com.byteflair.oauth.server.service;
 
 import com.byteflair.oauth.server.domain.CustomTemplate;
 import com.byteflair.oauth.server.domain.CustomTemplateRepository;
-import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
-import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /**
  * Created by calata on 24/01/17.
@@ -18,30 +18,23 @@ public class CustomTemplateService {
     @Autowired
     private CustomTemplateRepository templateRepository;
 
-    public CustomTemplate saveTemplate(String name, String content64) {
+    @Autowired
+    private FreeMarkerConfig freeMarkerConfig;
 
-        byte[] decodedContent;
-        CustomTemplate template = null;
+    public CustomTemplate saveTemplate(CustomTemplate template) {
+        CustomTemplate oldTemplate;
 
-        Assert.hasText(name);
-        Assert.hasText(content64);
-
-        try {
-
-            template = findTemplate(name); // si existe, lo recuperamos
-            if (template == null) {
-                template = new CustomTemplate();
-            }
-            // convert base64 string to byte[]
-            decodedContent = Base64.decode(content64.getBytes("UTF-8"));
-
-            template.setContent(decodedContent);
-            template.setName(CustomTemplate.TemplateName.valueOf(name.toUpperCase()));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace(); // TODO
+        oldTemplate = findTemplate(template.getName().toString()); // si existe, lo recuperamos
+        if (oldTemplate != null) {
+            template.setId(oldTemplate.getId());
         }
 
-        return templateRepository.save(template);
+        template.setLastModified(new Date());
+        template = templateRepository.save(template);
+        freeMarkerConfig.getConfiguration().clearTemplateCache();
+
+        return template;
+
     }
 
     public CustomTemplate findTemplate(String name) {
@@ -57,9 +50,10 @@ public class CustomTemplateService {
         Assert.hasText(name);
 
         template = findTemplate(name);
-
         if (template != null) {
             templateRepository.delete(template);
         }
+
+        freeMarkerConfig.getConfiguration().clearTemplateCache();
     }
 }

@@ -34,6 +34,10 @@ api:
   client:
     access_token_validity: 900
     refresh_token_validity: 43200
+  freemarker:
+    suffix: .ftl
+    prefix:
+    templates-path: classpath:/templates/
 
 ---
 

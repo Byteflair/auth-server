@@ -1,11 +1,14 @@
 package com.byteflair.oauth.server.controllers;
 
+import com.byteflair.oauth.server.boundary.CustomTemplateAssembler;
+import com.byteflair.oauth.server.boundary.CustomTemplateResource;
 import com.byteflair.oauth.server.domain.CustomTemplate;
 import com.byteflair.oauth.server.service.CustomTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,16 +23,29 @@ public class CustomTemplateController {
     @Autowired
     private CustomTemplateService templateService;
 
-    @RequestMapping(value = "/custom-templates/{name}", method = RequestMethod.PUT)
-    public ResponseEntity<CustomTemplate> updateCustomTemplate(@PathVariable(value = "name") String name, @RequestBody String content) {
+    @Autowired
+    private CustomTemplateAssembler assembler;
 
-        return new ResponseEntity(templateService.saveTemplate(name, content), HttpStatus.CREATED);
+    @RequestMapping(value = "/custom-templates/{name}", method = RequestMethod.PUT, consumes = "application/json")
+    public ResponseEntity<CustomTemplateResource> updateCustomTemplate(@PathVariable(value = "name") String name, @RequestBody CustomTemplateResource template) {
+
+        CustomTemplate customTemplate = null;
+
+        Assert.hasText(name);
+        Assert.hasText(template.getContent());
+        Assert.hasText(template.getEncoding());
+
+        template.setName(name);
+        customTemplate = assembler.convert(template);
+
+        return new ResponseEntity(assembler.toResource(templateService.saveTemplate(customTemplate)),
+                                  HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/custom-templates/{name}", method = RequestMethod.GET)
-    public ResponseEntity<CustomTemplate> getCustomTemplate(@PathVariable String name) {
+    public ResponseEntity<CustomTemplateResource> getCustomTemplate(@PathVariable String name) {
 
-        return new ResponseEntity<CustomTemplate>(templateService.findTemplate(name), HttpStatus.OK);
+        return new ResponseEntity(assembler.toResource(templateService.findTemplate(name)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/custom-templates/{name}", method = RequestMethod.DELETE)
