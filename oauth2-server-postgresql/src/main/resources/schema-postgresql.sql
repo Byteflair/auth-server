@@ -8,11 +8,13 @@ DROP TABLE IF EXISTS userdetails;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS userstates;
 DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS custom_templates;
 
 DROP SEQUENCE IF EXISTS groups_seq;
 DROP SEQUENCE IF EXISTS users_seq;
 DROP SEQUENCE IF EXISTS userdetails_seq;
 DROP SEQUENCE IF EXISTS roles_seq;
+DROP SEQUENCE IF EXISTS templates_seq;
 
 CREATE SEQUENCE groups_seq;
 
@@ -121,3 +123,15 @@ CREATE TABLE rolesperuser (
 ) ;
 
 CREATE INDEX rolestorolesperuser_idx ON rolesperuser (idrole);
+
+CREATE SEQUENCE templates_seq;
+
+CREATE TABLE custom_templates (
+  id int NOT NULL DEFAULT NEXTVAL ('templates_seq'),
+  name varchar(20) NOT NULL,
+  content bytea NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT name_unique UNIQUE  (name)
+);
+
+ALTER SEQUENCE templates_seq RESTART WITH 2;

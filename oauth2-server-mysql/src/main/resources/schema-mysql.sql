@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS `userdetails`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `userstates`;
 DROP TABLE IF EXISTS `groups`;
+DROP TABLE IF EXISTS `custom_templates`;
+
 
 CREATE TABLE `groups` (
   `idgroup` int(11) NOT NULL AUTO_INCREMENT,
@@ -96,4 +98,12 @@ CREATE TABLE `rolesperuser` (
   KEY `rolestorolesperuser_idx` (`idrole`),
   CONSTRAINT `rolestorolesperuser` FOREIGN KEY (`idrole`) REFERENCES `roles` (`idrole`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `userstorolesperuser` FOREIGN KEY (`iduser`) REFERENCES `users` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `custom_templates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `content` blob NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
