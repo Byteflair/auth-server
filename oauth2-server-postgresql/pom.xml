@@ -28,7 +28,6 @@
                 <configuration>
                     <images>
                         <image>
-                            <!--docker  run &#x002d;&#x002d;name mensosdb -p 27017:27017 -d mongo:3.0.8-->
                             <alias>oauthdb</alias>
                             <name>postgres:9.5</name>
                             <run>
