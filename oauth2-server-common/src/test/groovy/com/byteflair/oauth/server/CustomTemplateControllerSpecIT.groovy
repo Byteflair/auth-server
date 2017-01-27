@@ -102,7 +102,7 @@ class CustomTemplateControllerSpecIT extends Specification {
                 .statusCode(201)
 
         assert body.getName().equalsIgnoreCase(CustomTemplate.TemplateName.valueOf(templateName.toUpperCase()).toString())
-        //assert body.getContent().equals(Base64.getDecoder().decode(customTemplate['content']))
+        assert java.util.Base64.getEncoder().encodeToString(body.getContent().bytes).equals(customTemplate['content'])
         assert body.getEncoding().equals(customTemplate['encoding'])
         assert body.getLast_modified() != null
 
@@ -122,7 +122,7 @@ class CustomTemplateControllerSpecIT extends Specification {
         def body = response.as(CustomTemplateResource)
 
         assert body.getName().equalsIgnoreCase(CustomTemplate.TemplateName.valueOf(templateName.toUpperCase()).toString())
-        //assert body.getContent().equals(Base64.getDecoder().decode(customTemplate['content']))
+        assert java.util.Base64.getEncoder().encodeToString(body.getContent().bytes).equals(customTemplate['content'])
         assert body.getEncoding().equals(customTemplate['encoding'])
         assert body.getLast_modified() != null
     }

@@ -94,7 +94,7 @@ class FreeMarkerViewResolverSpecIT extends Specification {
     def "That renders default /login template (/resources/templates/)"() {
         when: ""
 
-        // paso 1 (simulamos navegacion web)
+        // step 1 (simulate web navigation)
         WebDriver driver = new HtmlUnitDriver();
 
         driver.get("http://localhost:" + port + "/login");
@@ -113,7 +113,7 @@ class FreeMarkerViewResolverSpecIT extends Specification {
         when: "Insert login custom template"
 
         createCustomTemplate("login", customTemplateLogin) // Automatically delete cache
-        // paso 1 (simulamos navegacion web)
+        // step 1 (simulate web navigation)
         WebDriver driver = new HtmlUnitDriver();
 
         driver.get("http://localhost:" + port + "/login");
@@ -136,7 +136,7 @@ class FreeMarkerViewResolverSpecIT extends Specification {
         def user = "user"
         def password = "secret"
 
-        // paso 1 (simulamos navegacion web)
+        // step 1 (simulate web navigation)
         WebDriver driver = new HtmlUnitDriver();
 
         driver.get("http://localhost:" + port + "/login");
@@ -155,7 +155,7 @@ class FreeMarkerViewResolverSpecIT extends Specification {
         when: "Delete login custom template"
 
         deleteCustomTemplate("login") // Automatically delete cache
-        // paso 1 (simulamos navegacion web)
+        // step 1 (simulate web navigation)
         WebDriver driver = new HtmlUnitDriver();
 
         driver.get("http://localhost:" + port + "/login");
