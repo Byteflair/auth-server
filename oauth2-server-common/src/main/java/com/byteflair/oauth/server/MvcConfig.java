@@ -33,9 +33,17 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
     @Value("${api.freemarker.templates-path}")
     private String templatesPath;
 
+    /**
+     * Any view declared here must be defined in
+     * {@link com.byteflair.oauth.server.domain.CustomTemplate.TemplateName} enum
+     *
+     * @param registry
+     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+
         registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/logout").setViewName("logout");
     }
 
     @Bean

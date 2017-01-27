@@ -65,11 +65,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .servletApi().rolePrefix("ROLE_")
             .and()
-            .formLogin().loginPage("/login").permitAll();
+            .formLogin().loginPage("/login").permitAll()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
+            .invalidateHttpSession(true);
 
         http
             .requestMatchers()
-            .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access");
+            .antMatchers("/login", "/logout", "/oauth/authorize", "/oauth/confirm_access");
 
         http.authorizeRequests()
             .anyRequest().authenticated();
