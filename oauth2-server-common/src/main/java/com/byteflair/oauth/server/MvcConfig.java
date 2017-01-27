@@ -48,7 +48,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     @Qualifier(value = "freeMarkerConfigurer")
-    public FreeMarkerConfigurer getFreeMarkerConfigurer() {
+    public FreeMarkerConfigurer getFreeMarkerConfigurer() throws Exception {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         freemarker.template.Configuration configuration;
         SpringTemplateLoader springTemplateLoader;
@@ -66,10 +66,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
             configuration.setLocalizedLookup(false);
 
             configurer.setConfiguration(configuration);
-        } catch (IOException e) {
-            // TODO
-        } catch (TemplateException e) {
-            //
+        } catch (IOException | TemplateException e) {
+            throw new Exception("Unexpected error creating FreeMarker configuration", e);
         }
 
         return configurer;
