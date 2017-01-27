@@ -27,7 +27,7 @@ public class DbTemplateLoader implements TemplateLoader {
         CustomTemplate template;
 
         // check if custom-template is defined in enum
-        if (!CustomTemplate.TemplateName.exists(name)) {
+        if (!CustomTemplate.TemplateName.exists(removeSuffix(name))) {
             return null;
         }
 
