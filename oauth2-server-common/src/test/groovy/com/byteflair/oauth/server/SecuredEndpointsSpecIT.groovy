@@ -135,6 +135,17 @@ public class SecuredEndpointsSpecIT extends Specification {
         checkResponseNotNullAndStatusOK(response)
     }
 
+    def "That can access /custom-templates with client ROLE_ADMIN"() {
+        when: "Client request /custom-templates"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(access_token)
+                .get("http://localhost:" + port + "/custom-templates/login") // login is one of existent names
+        then: "The client receives OK (database is empty so body is null)"
+        response.then().log().all()
+                .statusCode(200)
+    }
+
+
     def createNewClient() {
         //given: "An existing client"
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
@@ -204,6 +215,16 @@ public class SecuredEndpointsSpecIT extends Specification {
         checkResponseAndStatusForbidden(response)
     }
 
+    def "That can't access /custom-templates without ROLE_ADMIN"() {
+        when: "Client request /custom-templates"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(access_token)
+                .get("http://localhost:" + port + "/custom-templates/login") // login is one of existent names
+
+        then: "The client receives response"
+        checkResponseAndStatusForbidden(response)
+    }
+
     def "Authenticate with user with ROLE ADMIN"() {
         when: "User logs in"
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
@@ -261,6 +282,17 @@ public class SecuredEndpointsSpecIT extends Specification {
         checkResponseNotNullAndStatusOK(response)
     }
 
+    def "That can access /custom-templates with user ROLE_ADMIN"() {
+        when: "User request /custom-templates"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(access_token)
+                .get("http://localhost:" + port + "/custom-templates/login") // login is one of existent names
+        then: "User receives response"
+        then: "The client receives OK (database is empty so body is null)"
+        response.then().log().all()
+                .statusCode(200)
+    }
+
     def "Authenticate with user without ROLE ADMIN"() {
         when: "User logs in"
         def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
@@ -314,6 +346,16 @@ public class SecuredEndpointsSpecIT extends Specification {
     def "That user can't access /profile without ROLE_ADMIN"() {
         when: "User request /profile"
         def response = commonRequest("/profile")
+        then: "User receives response"
+        checkResponseAndStatusForbidden(response)
+    }
+
+    def "That user can't access /custom-templates without ROLE_ADMIN"() {
+        when: "Client request /custom-templates"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(access_token)
+                .get("http://localhost:" + port + "/custom-templates/login") // login is one of existent names
+
         then: "User receives response"
         checkResponseAndStatusForbidden(response)
     }
