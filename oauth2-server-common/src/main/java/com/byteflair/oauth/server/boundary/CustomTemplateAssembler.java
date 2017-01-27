@@ -25,7 +25,10 @@ public class CustomTemplateAssembler extends ResourceAssemblerSupport<CustomTemp
 
         CustomTemplate customTemplate;
 
-        Assert.notNull(source);
+        if (source == null) {
+            return null;
+        }
+
         Assert.hasText(source.getContent());
         Assert.hasText(source.getName());
 
@@ -44,7 +47,11 @@ public class CustomTemplateAssembler extends ResourceAssemblerSupport<CustomTemp
     public CustomTemplateResource toResource(CustomTemplate entity) {
 
         CustomTemplateResource resource;
-        Assert.notNull(entity);
+
+        if (entity == null) {
+            return null;
+        }
+
         Assert.notNull(entity.getName());
         Assert.notNull(entity.getContent());
 

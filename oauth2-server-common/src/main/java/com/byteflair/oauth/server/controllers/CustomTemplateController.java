@@ -29,11 +29,14 @@ public class CustomTemplateController {
     @RequestMapping(value = "/custom-templates/{name}", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity<CustomTemplateResource> updateCustomTemplate(@PathVariable(value = "name") String name, @RequestBody CustomTemplateResource template) {
 
-        CustomTemplate customTemplate = null;
+        CustomTemplate customTemplate;
 
-        Assert.hasText(name);
-        Assert.hasText(template.getContent());
-        Assert.hasText(template.getEncoding());
+        Assert.hasText(name, "name must be informed");
+        Assert.hasText(template.getContent(), "content must be informed");
+        Assert.hasText(template.getEncoding(), "encoding must be informed");
+        if (!CustomTemplate.TemplateName.exists(name)) {
+            throw new IllegalArgumentException(name.concat(" is not a valid custom-template"));
+        }
 
         template.setName(name);
         customTemplate = assembler.convert(template);
@@ -45,11 +48,21 @@ public class CustomTemplateController {
     @RequestMapping(value = "/custom-templates/{name}", method = RequestMethod.GET)
     public ResponseEntity<CustomTemplateResource> getCustomTemplate(@PathVariable String name) {
 
+        Assert.hasText(name, "name must be informed");
+        if (!CustomTemplate.TemplateName.exists(name)) {
+            throw new IllegalArgumentException(name.concat(" is not a valid custom-template"));
+        }
+
         return new ResponseEntity(assembler.toResource(templateService.findTemplate(name)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/custom-templates/{name}", method = RequestMethod.DELETE)
     public ResponseEntity deleteTemplate(@PathVariable String name) {
+
+        Assert.hasText(name, "name must be informed");
+        if (!CustomTemplate.TemplateName.exists(name)) {
+            throw new IllegalArgumentException(name.concat(" is not a valid custom-template"));
+        }
 
         templateService.deleteTemplate(name);
 

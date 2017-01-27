@@ -37,6 +37,17 @@ public class CustomTemplate {
     private String encoding;
 
     public enum TemplateName {
-        LOGIN
+        LOGIN, LOGOUT;
+
+        public static Boolean exists(String text) {
+            if (text != null) {
+                for (TemplateName t : TemplateName.values()) {
+                    if (text.equalsIgnoreCase(t.name())) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

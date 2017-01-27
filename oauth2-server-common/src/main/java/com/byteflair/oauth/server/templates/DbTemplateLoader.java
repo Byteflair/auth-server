@@ -24,11 +24,20 @@ public class DbTemplateLoader implements TemplateLoader {
     @Override
     public Object findTemplateSource(String name) throws IOException {
 
-        CustomTemplate template = templateRepository
+        CustomTemplate template;
+
+        // check if custom-template is defined in enum
+        if (!CustomTemplate.TemplateName.exists(name)) {
+            return null;
+        }
+
+        template = templateRepository
             .findOneByName(CustomTemplate.TemplateName.valueOf((removeSuffix(name).toUpperCase())));
+
         if (template != null) {
             return template;
         }
+
         return null;
     }
 
