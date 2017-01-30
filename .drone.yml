@@ -28,13 +28,13 @@ pipeline:
     #Limpiar y compilar
      - mvn -B -Dint.skip=true -Ddocker.skip=true -Dspring.profiles.active=dev clean install
      - mvn -B sonar:sonar
-     when:
-       matrix:
-         DIRECTORY: oauth2-server-postgresql
-         DATABASE: postgresql
-       matrix:
-         DIRECTORY: oauth2-server-mysql
-         DATABASE: mysql
+    when:
+      matrix:
+        DIRECTORY: oauth2-server-postgresql
+        DATABASE: postgresql
+      matrix:
+        DIRECTORY: oauth2-server-mysql
+        DATABASE: mysql
   i_test_postgresql:
     image: maven:3-jdk-8
     commands:
