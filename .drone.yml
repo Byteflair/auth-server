@@ -54,7 +54,7 @@ services:
   mysql:
     image: mysql:5.5
     environment:
-     - MYSQL_USER=oauth_serverc
+     - MYSQL_USER=oauth_server
      - MYSQL_ROOT_PASSWORD=password
      - MYSQL_PASSWORD=password
      - MYSQL_DATABASE=oauth_db
