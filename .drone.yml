@@ -30,7 +30,7 @@ pipeline:
            cp -a /drone/.m2 /root ;
        fi
     #Ejecutar tests de integración
-     - cd oauth2-server-postgresql && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
+     - cd oauth2-server-postgresql && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Ddocker.skip=true -Dspring.profiles.active=dev verify && cd ..
      - cp -a /root/.m2 /drone
   i_test_mysql:
     image: maven:3-jdk-8
@@ -40,7 +40,7 @@ pipeline:
            cp -a /drone/.m2 /root ;
        fi
     #Ejecutar tests de integración
-     - cd oauth2-server-mysql && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
+     - cd oauth2-server-mysql && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Ddocker.skip=true -Dspring.profiles.active=dev verify && cd ..
      - cp -a /root/.m2 /drone
   deploy:
     image: maven:3-jdk-8
