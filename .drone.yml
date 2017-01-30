@@ -9,10 +9,6 @@ pipeline:
     path: /home/deployment/cache/repository/
     restore: true
     mount: /drone/.m2/
-    when:
-      matrix: #ejecuta una unica vez
-        DIRECTORY: oauth2-server-postgresql
-        DATABASE: postgresql
   build:
     image: maven:3-jdk-8
     commands:
@@ -25,10 +21,6 @@ pipeline:
     #Limpiar y compilar
      - mvn -B -Dint.skip=true -Ddocker.skip=true -Dspring.profiles.active=dev clean install
      - mvn -B sonar:sonar
-    when:
-      matrix: #ejecuta una unica vez
-        DIRECTORY: oauth2-server-postgresql
-        DATABASE: postgresql
   i_test_postgresql:
     image: maven:3-jdk-8
     commands:
@@ -72,9 +64,6 @@ pipeline:
     mount: /drone/.m2/
     when:
       status:  [ failure, success ]
-      matrix: #ejecuta una unica vez
-        DIRECTORY: oauth2-server-postgresql
-        DATABASE: postgresql
 services:
   postgresql:
     image: postgres:9.5
@@ -98,6 +87,5 @@ matrix:
     - oauth2-server-postgresql
     - oauth2-server-mysql
   DATABASE:
-    - common
     - mysql
     - postgresql
