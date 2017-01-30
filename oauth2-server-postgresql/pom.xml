@@ -17,6 +17,8 @@
 
     <properties>
         <start-class>com.byteflair.oauth.server.Oauth2ServerApp</start-class>
+        <destFile>../target/jacoco-it.exec</destFile>
+        <sonar.jacoco.itReportPath>../target/jacoco-it.exec</sonar.jacoco.itReportPath>
     </properties>
 
     <build>
