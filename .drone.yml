@@ -34,6 +34,7 @@ pipeline:
      - mvn -B -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true -Ddocker.skip=true deploy -D jarName=
     when:
       branch: [dev, release/*, master]
+      event: tag
   sftp_cache_save:
     image: plugins/sftp-cache
     server: dev.byteflair.com:22
