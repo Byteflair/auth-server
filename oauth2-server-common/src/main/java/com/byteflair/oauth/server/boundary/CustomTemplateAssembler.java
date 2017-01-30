@@ -37,7 +37,7 @@ public class CustomTemplateAssembler extends ResourceAssemblerSupport<CustomTemp
                                        .content(Base64.decode(
                                            source.getContent().getBytes(Charset.forName(source.getEncoding()))))
                                        .encoding(source.getEncoding())
-                                       .lastModified(source.getLast_modified())
+                                       .lastModified(source.getLastModified())
                                        .build();
 
         return customTemplate;
@@ -60,7 +60,7 @@ public class CustomTemplateAssembler extends ResourceAssemblerSupport<CustomTemp
                                              new String(entity.getContent(), Charset.forName(entity.getEncoding())))
                                          .name(entity.getName().toString())
                                          .encoding(entity.getEncoding())
-                                         .last_modified(entity.getLastModified())
+                                         .lastModified(entity.getLastModified())
                                          .build();
 
         return resource;

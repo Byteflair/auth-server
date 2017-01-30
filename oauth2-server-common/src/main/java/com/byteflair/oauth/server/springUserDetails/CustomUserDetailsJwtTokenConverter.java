@@ -10,6 +10,7 @@
 
 package com.byteflair.oauth.server.springUserDetails;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.oauth2.common.*;
 import org.springframework.security.oauth2.common.util.JsonParser;
@@ -28,6 +29,7 @@ import java.util.Map;
 /**
  * Created by rpr on 23/03/16.
  */
+@Slf4j
 public class CustomUserDetailsJwtTokenConverter extends JwtAccessTokenConverter implements TokenEnhancer, AccessTokenConverter {
 
     private JsonParser objectMapper = JsonParserFactory.create();
@@ -81,7 +83,8 @@ public class CustomUserDetailsJwtTokenConverter extends JwtAccessTokenConverter 
                 if (refreshTokenInfo.containsKey("jti")) {
                     encodedRefreshToken.setValue(refreshTokenInfo.get("jti").toString());
                 }
-            } catch (IllegalArgumentException var11) {
+            } catch (IllegalArgumentException e) {
+                LOGGER.error("Unexpected error decoding refresh token", e);
             }
 
             LinkedHashMap refreshTokenInfo1 = new LinkedHashMap(accessToken.getAdditionalInformation());

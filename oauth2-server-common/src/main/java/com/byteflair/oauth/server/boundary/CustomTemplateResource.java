@@ -19,16 +19,16 @@ public class CustomTemplateResource extends ResourceSupport {
 
     private String name;
     private String content;
-    private Date last_modified;
+    private Date lastModified;
     private String encoding;
 
     @JsonCreator
     public CustomTemplateResource(@JsonProperty("name") String name,
-                                  @JsonProperty("content") String content, @JsonProperty("last_modified") Date last_modified,
+                                  @JsonProperty("content") String content, @JsonProperty("lastModified") Date lastModified,
                                   @JsonProperty("encoding") String encoding) {
         this.name = name;
         this.content = content;
-        this.last_modified = last_modified;
+        this.lastModified = lastModified;
         this.encoding = encoding;
     }
 }

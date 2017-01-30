@@ -17,7 +17,7 @@ import java.util.Set;
 @Table(name = "groups")
 public class Group {
 
-   /*
+    /**
     * CREATE TABLE `groups` (
     *  `idgroup` int(11) NOT NULL AUTO_INCREMENT,
     *  `groupname` varchar(45) NOT NULL,

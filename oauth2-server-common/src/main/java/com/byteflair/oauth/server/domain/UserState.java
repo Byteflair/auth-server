@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "userstates")
 public class UserState {
-   /*
+    /**
     *  CREATE TABLE `userstates` (
     *  `iduserstate` int(11) NOT NULL,
     *  `description` varchar(45) NOT NULL,

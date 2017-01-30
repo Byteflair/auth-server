@@ -21,7 +21,7 @@ import java.util.Set;
 @Data
 @Table(name = "users")
 public class User {
-   /*
+    /**
     * CREATE TABLE `users` (
     *   `iduser` int(11) NOT NULL AUTO_INCREMENT,
     *   `username` varchar(45) NOT NULL,

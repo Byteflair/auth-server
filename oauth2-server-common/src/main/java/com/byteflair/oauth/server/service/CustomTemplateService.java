@@ -23,6 +23,7 @@ public class CustomTemplateService {
 
     public CustomTemplate saveTemplate(CustomTemplate template) {
         CustomTemplate oldTemplate;
+        CustomTemplate updated;
 
         oldTemplate = findTemplate(template.getName().toString()); // si existe, lo recuperamos
         if (oldTemplate != null) {
@@ -30,10 +31,10 @@ public class CustomTemplateService {
         }
 
         template.setLastModified(new Date());
-        template = templateRepository.save(template);
+        updated = templateRepository.save(template);
         freeMarkerConfig.getConfiguration().clearTemplateCache();
 
-        return template;
+        return updated;
 
     }
 

@@ -104,7 +104,7 @@ class CustomTemplateControllerSpecIT extends Specification {
         assert body.getName().equalsIgnoreCase(CustomTemplate.TemplateName.valueOf(templateName.toUpperCase()).toString())
         assert java.util.Base64.getEncoder().encodeToString(body.getContent().bytes).equals(customTemplate['content'])
         assert body.getEncoding().equals(customTemplate['encoding'])
-        assert body.getLast_modified() != null
+        assert body.getLastModified() != null
 
     }
 
@@ -124,7 +124,7 @@ class CustomTemplateControllerSpecIT extends Specification {
         assert body.getName().equalsIgnoreCase(CustomTemplate.TemplateName.valueOf(templateName.toUpperCase()).toString())
         assert java.util.Base64.getEncoder().encodeToString(body.getContent().bytes).equals(customTemplate['content'])
         assert body.getEncoding().equals(customTemplate['encoding'])
-        assert body.getLast_modified() != null
+        assert body.getLastModified() != null
     }
 
     def "That sucessive PUT requets overrides last custom template"() {

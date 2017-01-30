@@ -36,6 +36,7 @@ public class CustomClientDetailsService {
 
     public BaseClientDetails createClientDetails(BaseClientDetails clientDetails) {
 
+        BaseClientDetails clientDet;
         Assert.notNull(clientDetails);
         Assert.hasText(clientDetails.getClientId(), "client_id must be informed");
         Assert.hasText(clientDetails.getClientSecret(), "client_secret must be informed");
@@ -61,13 +62,13 @@ public class CustomClientDetailsService {
         jdbcClientDetailsService.setPasswordEncoder(passwordEncoder);
         jdbcClientDetailsService.addClientDetails(clientDetails);
 
-        clientDetails = getClientDetails(clientDetails.getClientId());
+        clientDet = getClientDetails(clientDetails.getClientId());
 
-        return clientDetails;
+        return clientDet;
     }
 
     public BaseClientDetails getClientDetails(String id) {
-        BaseClientDetails clientDetails = null;
+        BaseClientDetails clientDetails;
 
         Assert.hasText(id, "id must be informed");
 

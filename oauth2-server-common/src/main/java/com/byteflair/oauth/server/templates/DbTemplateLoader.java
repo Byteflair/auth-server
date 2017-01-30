@@ -32,7 +32,7 @@ public class DbTemplateLoader implements TemplateLoader {
         }
 
         template = templateRepository
-            .findOneByName(CustomTemplate.TemplateName.valueOf((removeSuffix(name).toUpperCase())));
+            .findOneByName(CustomTemplate.TemplateName.valueOf(removeSuffix(name).toUpperCase()));
 
         if (template != null) {
             return template;
