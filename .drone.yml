@@ -25,22 +25,14 @@ pipeline:
     image: maven:3-jdk-8
     commands:
     #Ejecutar tests de integración
-     - cd ${DIRECTORY} && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
+     - cd oauth2-server-postgresql && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
      - cp -a /root/.m2 /drone
-    when:
-      matrix:
-        DIRECTORY: oauth2-server-postgresql
-        DATABASE: postgresql
   i_test_mysql:
     image: maven:3-jdk-8
     commands:
     #Ejecutar tests de integración
-     - cd ${DIRECTORY} && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
+     - cd oauth2-server-mysql && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
      - cp -a /root/.m2 /drone
-    when:
-      matrix:
-        DIRECTORY: oauth2-server-mysql
-        DATABASE: mysql
   deploy:
     image: maven:3-jdk-8
     commands:
@@ -53,9 +45,6 @@ pipeline:
      - mvn -B -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy -D jarName=
     when:
       branch: [dev, release/*, master]
-      matrix: #ejecuta una unica vez
-        DIRECTORY: oauth2-server-postgresql
-        DATABASE: postgresql
   sftp_cache_save:
     image: plugins/sftp-cache
     server: dev.byteflair.com:22
@@ -82,10 +71,3 @@ services:
      - MYSQL_DATABASE=oauth_db
     ports:
       "3306:3306"
-matrix:
-  DIRECTORY:
-    - oauth2-server-postgresql
-    - oauth2-server-mysql
-  DATABASE:
-    - mysql
-    - postgresql
