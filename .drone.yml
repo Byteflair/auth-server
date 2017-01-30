@@ -9,8 +9,6 @@ pipeline:
     path: /home/deployment/cache/repository/
     restore: true
     mount: /drone/.m2/
-    when:
-      branch: [master, dev, feat/drone]
   build:
     image: maven:3-jdk-8
     commands:
@@ -21,66 +19,34 @@ pipeline:
     #Copiar settings de maven
      - cp /drone/src/.drone/settings.xml /root/.m2
     #Limpiar y compilar
-     - mvn -B -f oauth2-server-common/pom.xml -Dmaven.verify.skip=true clean install
-    #Ejecutar tests unitarios
-    # - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true test
-    #Ejecutar tests de integración
-    # - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true -Dunit.skip=true verify -X
-    #Desplegar jars en repo byteflair
-    # - mvn -B -Ddocker.skip=true -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy
-     - cp -a /root/.m2 /drone
-    when:
-      branch: [master, dev, feat/drone]
-  #Guardamos la cache
-  sftp_cache_save_common:
-    image: plugins/sftp-cache
-    server: dev.byteflair.com:22
-    path: /home/deployment/cache/repository/
-    rebuild: true
-    mount: /drone/.m2/
-    when:
-      branch: [master, dev, feat/drone]
-  test_mysql:
+     - mvn -B -Dint.skip=true -Ddocker.skip=true -Dspring.profiles.active=dev clean install
+     - mvn -B sonar:sonar
+  i_test_postgresql:
     image: maven:3-jdk-8
     commands:
-    #Copiar settings de maven
+    #Ejecutar tests de integración
+     - cd /${DIRECTORY} && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
+     - cp -a /root/.m2 /drone
+    when:
+      matrix:
+        DIRECTORY: oauth2-server-postgresql
+        DATABASE: postgresql
+      matrix:
+        DIRECTORY: oauth2-server-mysql
+        DATABASE: mysql
+  deploy:
+    image: maven:3-jdk-8
+    commands:
+     #Copiar settings de maven
      - if [ -d "/drone/.m2" ]; then
            cp -a /drone/.m2 /root ;
        fi
-    #Copiar settings de maven
+     #Copiar settings de maven
      - cp /drone/src/.drone/settings.xml /root/.m2
-    #Limpiar y compilar
-     - mvn -B -f oauth2-server-mysql/pom.xml -Ddocker.skip=true -Dmaven.verify.skip=true clean install
-    #Ejecutar tests unitarios
-    # - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true test
-    #Ejecutar tests de integración
-     - mvn -B -f oauth2-server-mysql/pom.xml -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true -Dunit.skip=true verify -X
-    #Desplegar jars en repo byteflair
-    # - mvn -B -Ddocker.skip=true -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy
-     - cp -a /root/.m2 /drone
+     - mvn -B -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy -D jarName=
     when:
-      branch: [master, dev, feat/drone]
-  test_postgres:
-    image: maven:3-jdk-8
-    commands:
-    #Copiar settings de maven
-     - if [ -d "/drone/.m2" ]; then
-           cp -a /drone/.m2 /root ;
-       fi
-    #Copiar settings de maven
-     - cp /drone/src/.drone/settings.xml /root/.m2
-    #Limpiar y compilar
-     - mvn -B -f oauth2-server-postgresql/pom.xml -Ddocker.skip=true -Dmaven.verify.skip=true clean install
-    #Ejecutar tests unitarios
-    # - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true test
-    #Ejecutar tests de integración
-     - mvn -B -f oauth2-server-postgresql/pom.xml -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true -Dunit.skip=true verify -X
-    #Desplegar jars en repo byteflair
-    # - mvn -B -Ddocker.skip=true -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy
-     - cp -a /root/.m2 /drone
-    when:
-      branch: [master, dev, feat/drone]
-  #Guardamos la cache
+      branch: [dev, release/*, master]
+    #Prueba
   sftp_cache_save:
     image: plugins/sftp-cache
     server: dev.byteflair.com:22
@@ -88,26 +54,29 @@ pipeline:
     rebuild: true
     mount: /drone/.m2/
     when:
-      branch: [master, dev, feat/drone]
+      status:  [ failure, success ]
 services:
-  mysqldb:
-    image: mysql:5.5
-    environment:
-     - MYSQL_ROOT_PASSWORD=password
-     - MYSQL_USER=oauth_server
-     - MYSQL_PASSWORD=password
-     - MYSQL_DATABASE=oauth_db
-    ports:
-     - "3306:3306"
-    when:
-      branch: [master, dev, feat/drone]
-  postgresdb:
+  postgresql:
     image: postgres:9.5
     environment:
-     - POSTGRES_USER=oauth_server
-     - POSTGRES_PASSWORD=password
-     - POSTGRES_DB=oauth_db
+     - POSTGRES_USER: oauth_server
+     - POSTGRES_PASSWORD: password
+     - POSTGRES_DB: oauth_db
     ports:
-     - "5432:5432"
-    when:
-      branch: [master, dev, feat/drone]
+      "5432:5432"
+  mysql:
+    image: mysql:5.5
+    environment:
+     - MYSQL_USER: oauth_server
+     - MYSQL_ROOT_PASSWORD: password
+     - MYSQL_PASSWORD: password
+     - MYSQL_DATABASE: oauth_db
+    ports:
+      "3306:3306"
+matrix:
+  DIRECTORY:
+    - oauth2-server-postgresql
+    - oauth2-server-mysql
+  DATABASE:
+    - mysql
+    - postgresql
