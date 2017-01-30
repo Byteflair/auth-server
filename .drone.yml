@@ -33,8 +33,8 @@ pipeline:
      - cp /drone/src/.drone/settings.xml /root/.m2
      - mvn -B -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true -Ddocker.skip=true deploy -D jarName=
     when:
-      branch: [dev, release/*, master]
       event: tag
+      branch: [dev, release/*, master]
   sftp_cache_save:
     image: plugins/sftp-cache
     server: dev.byteflair.com:22
