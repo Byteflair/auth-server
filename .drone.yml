@@ -19,9 +19,7 @@ pipeline:
     #Copiar settings de maven
      - cp /drone/src/.drone/settings.xml /root/.m2
     #Limpiar y compilar
-     - mvn -B -f oauth2-server-postgresql/pom.xml -Ddocker.skip=true -Dspring.profiles.active=dev verify
-     - mvn -B -f oauth2-server-mysql/pom.xml -Ddocker.skip=true -Dspring.profiles.active=dev verify
-     - mvn -B -Ddocker.skip=true -Dspring.profiles.active=dev -Dint.skip=true clean install
+     - mvn -B -Djava.security.egd=file:/dev/./urandom -Ddocker.skip=true -Dspring.profiles.active=dev -Dint.skip=true clean install
      - mvn -B sonar:sonar
      - cp -a /root/.m2 /drone
   deploy:
