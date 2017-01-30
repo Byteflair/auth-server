@@ -10,12 +10,9 @@ pipeline:
     restore: true
     mount: /drone/.m2/
     when:
-      matrix:
+      matrix: #ejecuta una unica vez
         DIRECTORY: oauth2-server-postgresql
         DATABASE: postgresql
-      matrix:
-        DIRECTORY: oauth2-server-mysql
-        DATABASE: mysql
   build:
     image: maven:3-jdk-8
     commands:
@@ -29,22 +26,26 @@ pipeline:
      - mvn -B -Dint.skip=true -Ddocker.skip=true -Dspring.profiles.active=dev clean install
      - mvn -B sonar:sonar
     when:
-      matrix:
+      matrix: #ejecuta una unica vez
         DIRECTORY: oauth2-server-postgresql
         DATABASE: postgresql
-      matrix:
-        DIRECTORY: oauth2-server-mysql
-        DATABASE: mysql
   i_test_postgresql:
     image: maven:3-jdk-8
     commands:
     #Ejecutar tests de integración
-     - cd /${DIRECTORY} && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
+     - cd ${DIRECTORY} && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
      - cp -a /root/.m2 /drone
     when:
       matrix:
         DIRECTORY: oauth2-server-postgresql
         DATABASE: postgresql
+  i_test_mysql:
+    image: maven:3-jdk-8
+    commands:
+    #Ejecutar tests de integración
+     - cd ${DIRECTORY} && mvn -B -Djava.security.egd=file:/dev/./urandom -Dunit.skip=true -Dspring.profiles.active=dev verify && cd ..
+     - cp -a /root/.m2 /drone
+    when:
       matrix:
         DIRECTORY: oauth2-server-mysql
         DATABASE: mysql
@@ -60,12 +61,9 @@ pipeline:
      - mvn -B -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true deploy -D jarName=
     when:
       branch: [dev, release/*, master]
-      matrix:
+      matrix: #ejecuta una unica vez
         DIRECTORY: oauth2-server-postgresql
         DATABASE: postgresql
-      matrix:
-        DIRECTORY: oauth2-server-mysql
-        DATABASE: mysql
   sftp_cache_save:
     image: plugins/sftp-cache
     server: dev.byteflair.com:22
@@ -74,12 +72,9 @@ pipeline:
     mount: /drone/.m2/
     when:
       status:  [ failure, success ]
-      matrix:
+      matrix: #ejecuta una unica vez
         DIRECTORY: oauth2-server-postgresql
         DATABASE: postgresql
-      matrix:
-        DIRECTORY: oauth2-server-mysql
-        DATABASE: mysql
 services:
   postgresql:
     image: postgres:9.5
@@ -92,7 +87,7 @@ services:
   mysql:
     image: mysql:5.5
     environment:
-     - MYSQL_USER=oauth_server
+     - MYSQL_USER=oauth_serverc
      - MYSQL_ROOT_PASSWORD=password
      - MYSQL_PASSWORD=password
      - MYSQL_DATABASE=oauth_db
@@ -103,5 +98,6 @@ matrix:
     - oauth2-server-postgresql
     - oauth2-server-mysql
   DATABASE:
+    - common
     - mysql
     - postgresql
