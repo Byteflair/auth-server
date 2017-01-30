@@ -59,18 +59,18 @@ services:
   postgresql:
     image: postgres:9.5
     environment:
-     - POSTGRES_USER: oauth_server
-     - POSTGRES_PASSWORD: password
-     - POSTGRES_DB: oauth_db
+     - POSTGRES_USER=oauth_server
+     - POSTGRES_PASSWORD=password
+     - POSTGRES_DB=oauth_db
     ports:
       "5432:5432"
   mysql:
     image: mysql:5.5
     environment:
-     - MYSQL_USER: oauth_server
-     - MYSQL_ROOT_PASSWORD: password
-     - MYSQL_PASSWORD: password
-     - MYSQL_DATABASE: oauth_db
+     - MYSQL_USER=oauth_server
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_PASSWORD=password
+     - MYSQL_DATABASE=oauth_db
     ports:
       "3306:3306"
 matrix:
