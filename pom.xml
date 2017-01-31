@@ -16,7 +16,7 @@
 
     <groupId>com.byteflair</groupId>
     <artifactId>oauth2-server</artifactId>
-    <version>0.5-RC</version>
+    <version>0.7-RC</version>
 
     <modules>
         <module>oauth2-server-common</module>
@@ -35,6 +35,10 @@
         <unit.skip>false</unit.skip>
         <int.skip>false</int.skip>
         <docker.skip>false</docker.skip>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <destFile>${project.basedir}/target/jacoco-it.exec</destFile> <!-- Tell jacoco where to output merged report -->
+        <sonar.jacoco.itReportPath>${project.basedir}/target/jacoco-it.exec
+        </sonar.jacoco.itReportPath> <!-- Tell sonar where jacoco's merged report is-->
     </properties>
 
     <profiles>
@@ -107,6 +111,15 @@
     </parent>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>4.2.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -184,6 +197,10 @@
                         <goals>
                             <goal>prepare-agent-integration</goal>
                         </goals>
+                        <configuration>
+                            <append>true</append>
+                            <destFile>${destFile}</destFile>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>default-report-integration</id>
@@ -346,4 +363,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>

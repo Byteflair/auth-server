@@ -34,7 +34,7 @@ class ImplicitGrantFlowSpecIT extends Specification {
         // paso 1 (simulamos navegacion web)
         WebDriver driver = new HtmlUnitDriver();
 
-        driver.get("http://localhost:" + port + "/oauth/authorize?response_type=token&scope=read write trust&redirect_uri=http://byteflair.com/hola&client_id=" + client_id);
+        driver.get("http://localhost:" + port + "/oauth/authorize?response_type=token&scope=read write trust&redirect_uri=https://byteflair.com/hola&client_id=" + client_id);
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("login")).click();
@@ -57,7 +57,7 @@ class ImplicitGrantFlowSpecIT extends Specification {
         // paso 1 (simulamos navegacion web)
         WebDriver driver = new HtmlUnitDriver();
 
-        driver.get("http://localhost:" + port + "/oauth/authorize?response_type=token&scope=read write trust&redirect_uri=http://byteflair.com/hola&client_id=" + client_id);
+        driver.get("http://localhost:" + port + "/oauth/authorize?response_type=token&scope=read write trust&redirect_uri=https://byteflair.com/hola&client_id=" + client_id);
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("login")).click();

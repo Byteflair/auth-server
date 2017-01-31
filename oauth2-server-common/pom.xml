@@ -5,14 +5,19 @@
     <parent>
         <artifactId>oauth2-server</artifactId>
         <groupId>com.byteflair</groupId>
-        <version>0.5-RC</version>
+        <version>0.7-RC</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.byteflair</groupId>
     <artifactId>oauth2-server-common</artifactId>
-    <version>0.5-RC</version>
+    <version>0.7-RC</version>
 
+
+    <properties>
+        <destFile>../target/jacoco-it.exec</destFile>
+        <sonar.jacoco.itReportPath>../target/jacoco-it.exec</sonar.jacoco.itReportPath>
+    </properties>
 
     <build>
         <plugins>

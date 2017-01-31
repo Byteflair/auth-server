@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "roles")
 public class Role {
 
-   /*
+    /**
     * CREATE TABLE `roles` (
     *  `idrole` int(11) NOT NULL AUTO_INCREMENT,
     *  `rolename` varchar(45) NOT NULL,

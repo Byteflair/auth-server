@@ -37,7 +37,7 @@ class AuthenticationCodeFlowSpecIT extends Specification {
         WebDriver driver = new HtmlUnitDriver();
 
         driver.get("http://localhost:" + port + "/oauth/authorize?response_type=code&client_id="
-                + client_id + "&client_secret=" + client_secret + "&redirect_uri=http://byteflair.com/hola");
+                + client_id + "&client_secret=" + client_secret + "&redirect_uri=https://byteflair.com/hola");
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("login")).click();
@@ -47,7 +47,7 @@ class AuthenticationCodeFlowSpecIT extends Specification {
 
         // paso 2
         def response = given().auth().basic(client_id, client_secret)
-                .post("http://localhost:" + port + "/oauth/token?grant_type=authorization_code&" + codeUrl + "&redirect_uri=http://byteflair.com/hola")
+                .post("http://localhost:" + port + "/oauth/token?grant_type=authorization_code&" + codeUrl + "&redirect_uri=https://byteflair.com/hola")
 
         then: "The client obtains an access token"
 
@@ -70,7 +70,7 @@ class AuthenticationCodeFlowSpecIT extends Specification {
         WebDriver driver = new HtmlUnitDriver();
 
         driver.get("http://localhost:" + port + "/oauth/authorize?response_type=code&client_id="
-                + client_id + "&client_secret=" + client_secret + "&redirect_uri=http://byteflair.com/hola");
+                + client_id + "&client_secret=" + client_secret + "&redirect_uri=https://byteflair.com/hola");
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("login")).click();
@@ -92,7 +92,7 @@ class AuthenticationCodeFlowSpecIT extends Specification {
         WebDriver driver = new HtmlUnitDriver();
 
         driver.get("http://localhost:" + port + "/oauth/authorize?response_type=code&client_id="
-                + client_id + "&client_secret=" + client_secret + "&redirect_uri=http://byteflair.com/hola");
+                + client_id + "&client_secret=" + client_secret + "&redirect_uri=https://byteflair.com/hola");
         driver.findElement(By.id("username")).sendKeys(username);
         driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.id("login")).click();
@@ -100,7 +100,7 @@ class AuthenticationCodeFlowSpecIT extends Specification {
         String codeUrl = "code=throw_error"
         // paso 2
         def response = given().auth().basic(client_id, client_secret)
-                .post("http://localhost:" + port + "/oauth/token?grant_type=authorization_code&" + codeUrl + "&redirect_uri=http://byteflair.com/hola")
+                .post("http://localhost:" + port + "/oauth/token?grant_type=authorization_code&" + codeUrl + "&redirect_uri=https.://byteflair.com/hola")
 
         then: "The client can not obtain access token"
 

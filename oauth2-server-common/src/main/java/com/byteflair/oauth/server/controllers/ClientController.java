@@ -18,30 +18,19 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/clients")
     public BaseClientDetails createNewClient(@RequestBody BaseClientDetails clientDetails) {
+        return clientDetailsService.createClientDetails(clientDetails);
 
-        BaseClientDetails createdClientDetail = clientDetailsService.createClientDetails(clientDetails);
-
-        return createdClientDetail;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/clients/{id}")
     public BaseClientDetails getClientDetails(@PathVariable(value = "id") String id){
+        return clientDetailsService.getClientDetails(id);
 
-        BaseClientDetails clientDetails = clientDetailsService.getClientDetails(id);
-
-        return clientDetails;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/clients")
     public List<BaseClientDetails> getAllClientDetails() {
-        List<BaseClientDetails> baseClientDetails = clientDetailsService.getAllClientDetails();
-
-        return baseClientDetails;
+        return clientDetailsService.getAllClientDetails();
     }
 
-    /*@RequestMapping(method = RequestMethod.DELETE, value = "/client/{id}")
-    public void deleteClient(@PathVariable(value = "id") String id) {
-
-        jdbcClientDetailsService.removeClientDetails(id);
-    }*/
 }
