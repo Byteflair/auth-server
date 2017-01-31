@@ -1,8 +1,8 @@
-# Maven
+### Maven
 
 Most of the project, if not all, is configured around Maven. You can run the server or set it up running Maven commands. 
 
-# Profiles
+### Profiles
 
 Maven is configured to use the Maven profile with the same name as the Spring profile used. The following profiles are available:
 
@@ -19,7 +19,7 @@ For example, if you want to execute the project in `dev` using `postgresql` you 
 ```
 in the `oauth2-server-postgresql` root directory
 
-# Starting a database for development and testing
+### Starting a database for development and testing
 
 The Oauth server is ready to work with MySQL and PostgreSQL databases. If you run the server under the `dev` Spring profile, it will create all necessary database tables in your database of choice. To select a database you must launch one of the projects (`oauth2-server-mysql` or `oauth2-server-postgresql`).
  
@@ -31,7 +31,7 @@ mvn -Pdev -Dspring.profiles.active=dev docker:run
 
 in the `oauth2-mysql-server` root directory
 
-# Application properties
+### Application properties
 
 You can override any application properties in the command line. For example, if you are running a PostgreSQL database in port `5433` instead of the default `5432` and its access credentials are `postgres:postgres` you could override default values with the followiing command:
  
@@ -43,7 +43,7 @@ Property `spring.datasource.initialize` initialize (or not) schema and example d
 This property value is `false` by default excluding `dev` profile, where it's `true`. Be aware of it when using in production environments.
 
 
-# Project setup
+### Project setup
 
 This OAuth2 Server implementation uses JWT tokens. These tokens are signed with an RSA key pair. Before running the server you need to generate an RSA key pair in a key store
 and configure it in the server overriding following properties:
@@ -62,11 +62,27 @@ You can generate an initialized key store for development and testing purposes u
 mvn -Dspring.profiles.active=true keytool:generateKeyPair
 ```
 
-# Running the server
+### Running the server
 
 After running the project setup, you can run the server with the following command: 
 ```
 mvn -Pdev -Dspring.profiles.active=true spring-boot:run
 ```
+
+
+---
+
+#### Changelog 0.7-RC
  
+* Included template customisation
+
+    You can set via API endpoint /custom-templates your own templates on pages like /login, /logout via API. Just ensure it include all necessary elements like CSRF token, username and password input, etc
+
+
+---
  
+#### Changelog 0.5-RC
+
+* Included securization of management endpoints. Only clients and users with authority/role ROLE_ADMIN can access those endpoints
+
+If upgrading from 0.4-RC, please ensure you grant ROLE_ADMIN to your admin user via DB. After that, you can set authorities when creating client via API
