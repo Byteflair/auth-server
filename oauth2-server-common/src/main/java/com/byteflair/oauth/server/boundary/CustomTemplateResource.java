@@ -3,6 +3,7 @@ package com.byteflair.oauth.server.boundary;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.ResourceSupport;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode
 public class CustomTemplateResource extends ResourceSupport {
 
     private String name;
