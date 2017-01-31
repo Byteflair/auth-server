@@ -7,12 +7,12 @@
     <parent>
         <artifactId>oauth2-server</artifactId>
         <groupId>com.byteflair</groupId>
-        <version>0.7-RC</version>
+        <version>0.7.RELEASE</version>
     </parent>
 
     <artifactId>oauth2-server-mysql</artifactId>
     <groupId>com.byteflair</groupId>
-    <version>0.7-RC</version>
+    <version>0.7.RELEASE</version>
 
     <properties>
         <start-class>com.byteflair.oauth.server.Oauth2ServerApp</start-class>
@@ -117,12 +117,12 @@
         <dependency>
             <groupId>com.byteflair</groupId>
             <artifactId>oauth2-server-common</artifactId>
-            <version>0.7-RC</version>
+            <version>0.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.byteflair</groupId>
             <artifactId>oauth2-server-common</artifactId>
-            <version>0.7-RC</version>
+            <version>0.7.RELEASE</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
