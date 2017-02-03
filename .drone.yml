@@ -5,7 +5,6 @@ pipeline:
   #Restauramos la cache
   sftp_cache_restore:
     image: plugins/sftp-cache
-    server: dev.byteflair.com:22
     path: /home/deployment/cache/repository/
     restore: true
     mount: /drone/.m2/
@@ -31,12 +30,11 @@ pipeline:
        fi
      #Copiar settings de maven
      - cp /drone/src/.drone/settings.xml /root/.m2
-     - mvn -B -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true -Ddocker.skip=true deploy -D jarName=
+     - mvn -B -Dunit.skip=true -Dint.skip=true -Dmaven.install.skip=true -Ddocker.skip=true deploy
     when:
       event: tag
   sftp_cache_save:
     image: plugins/sftp-cache
-    server: dev.byteflair.com:22
     path: /home/deployment/cache/repository/
     rebuild: true
     mount: /drone/.m2/
