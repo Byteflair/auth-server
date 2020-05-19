@@ -2,17 +2,12 @@ spring:
   jpa:
     show-sql: false
     generate-ddl: false
-    database: MYSQL
   datasource:
     initialize: true
     host: localhost
     dbname: oauth_db
     username: oauth_server
     password: password
-    port: 3306
-    platform: mysql
-    url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp
-    driver-class-name: com.mysql.jdbc.Driver
   data.rest:
     returnBodyOnCreate: true
     returnBodyOnupdate: true
@@ -38,3 +33,27 @@ logging:
   level:
     com.byteflair.oauth: DEBUG
     org.springframework.security: DEBUG
+
+---
+
+spring:
+  profiles: postgresql
+  jpa:
+    database: POSTGRESQL
+  datasource:
+    port: 5432
+    platform: postgresql
+    url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp
+    driver-class-name: org.postgresql.Driver
+
+---
+
+spring:
+  profiles: mysql
+  jpa:
+    database: MYSQL
+  datasource:
+    port: 3306
+    platform: mysql
+    url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp
+    driver-class-name: com.mysql.jdbc.Driver

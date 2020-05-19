@@ -5,13 +5,6 @@ spring:
   jpa:
     show-sql: false
     generate-ddl: false
-    database: POSTGRESQL
-  datasource:
-    initialize: false
-    port: 5432
-    platform: postgresql
-    url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp
-    driver-class-name: org.postgresql.Driver
   data.rest:
     returnBodyOnCreate: true
     returnBodyOnupdate: true
@@ -38,6 +31,33 @@ api:
     suffix: .ftl
     prefix:
     templates-path: classpath:/templates/
+
+---
+
+spring:
+  profiles: postgresql
+  jpa:
+    database: POSTGRESQL
+  datasource:
+    initialize: false
+    port: 5432
+    platform: postgresql
+    url: jdbc:postgresql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp
+    driver-class-name: org.postgresql.Driver
+
+---
+
+spring:
+  profiles: mysql
+  jpa:
+    database: MYSQL
+  datasource:
+    initialize: false
+    port: 3306
+    platform: mysql
+    url: jdbc:mysql://${spring.datasource.host}:${spring.datasource.port}/${spring.datasource.dbname}?autoReconnect=true&useUnicode=true&characterEncoding=utf8&noAccessToProcedureBodies=true&protocol=tcp
+    driver-class-name: com.mysql.jdbc.Driver
+
 
 ---
 
