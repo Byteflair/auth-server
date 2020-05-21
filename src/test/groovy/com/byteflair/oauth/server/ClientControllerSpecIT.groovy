@@ -1,0 +1,238 @@
+/*
+ * Copyright (c) 2020 Byteflair
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package com.byteflair.oauth.server
+
+import groovy.util.logging.Slf4j
+import io.restassured.http.ContentType
+import org.springframework.boot.context.embedded.LocalServerPort
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.oauth2.provider.client.BaseClientDetails
+import org.springframework.test.context.TestPropertySource
+import spock.lang.Shared
+import spock.lang.Specification
+import spock.lang.Stepwise
+
+import static io.restassured.RestAssured.given
+
+/**
+ * Created by calata on 21/11/16.
+ */
+@SpringBootTest(classes = ITConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations = ["classpath:application.yml"])
+@Slf4j
+@Stepwise
+class ClientControllerSpecIT extends Specification {
+
+    @LocalServerPort
+    int port
+
+    @Shared
+    def accessToken
+
+    @Shared
+
+            client = [
+                    client_id             : 'test',
+                    client_secret         : 'secret',
+                    scope                 : 'trust',
+                    authorized_grant_types: 'authorization_code,password,refresh_token,implicit,client_credentials',
+                    authorities           : 'ROLE_TRUSTED_CLIENT',
+                    access_token_validity : 900,
+                    refresh_token_validity: 43200,
+                    detail1               : 'detail1',
+                    detail2               : 'detail2',
+                    autoapprove           : 'true'
+            ]
+
+    @Shared
+            client2 = [
+                    client_id             : 'test2',
+                    client_secret         : 'secret',
+                    scope                 : 'trust',
+                    authorized_grant_types: 'authorization_code,password,refresh_token,implicit,client_credentials',
+                    authorities           : 'ROLE_TRUSTED_CLIENT',
+                    access_token_validity : 900,
+                    refresh_token_validity: 43200,
+                    detail1               : 'detail1',
+                    detail2               : 'detail2',
+                    autoapprove           : 'true'
+            ]
+
+
+    String username = "admin-client"
+
+    String password = "secret"
+
+    def "Authenticate"() {
+        //given: "An existing client"
+        when: "The client logs in"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().basic(username, password)
+                .post("http://localhost:" + port + "/oauth/token?grant_type=client_credentials")
+        def body = response.as(Map)
+        accessToken = body.get('access_token')
+        then: "The client obtains an access token"
+        response.then().log().all()
+                .statusCode(200)
+
+    }
+
+    def "That can create new client"() {
+        //given: "An existing client"
+        when: "Send POST request to create client"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .body(client)
+                .post("http://localhost:" + port + "/clients")
+        then: "The client is created correctly and returns"
+        response.then().log().all()
+                .statusCode(200)
+
+        def body = response.as(BaseClientDetails)
+
+        assert body.getClientId().equals(client['client_id'])
+        assert body.getScope().equals(client['scope'].split(',').collect { it as String }.toSet())
+        assert body.getAuthorizedGrantTypes().equals(client['authorized_grant_types'].split(',').collect {
+            it as String
+        }.toSet())
+        assert body.getAuthorities().equals(client['authorities'].split(',').collect { it -> new SimpleGrantedAuthority(it) })
+        assert body.getAccessTokenValiditySeconds().equals(client['access_token_validity'])
+        assert body.getRefreshTokenValiditySeconds().equals(client['refresh_token_validity'])
+        assert body.getAdditionalInformation() != null && !body.getAdditionalInformation().isEmpty()
+        assert body.getAdditionalInformation().get("detail1").equals(client['detail1'])
+        assert body.getAdditionalInformation().get("detail2").equals(client['detail2'])
+    }
+
+    def "That can't create client_id that already exists "() {
+        //given: "An existing client"
+        when: "Send POST request to create client"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .body(client)
+                .post("http://localhost:" + port + "/clients")
+        then: "The client can't be created"
+        response.then().log().all()
+                .statusCode(500)
+    }
+
+    def "That can return existing client"() {
+        //given: "An existing client"
+        when: "Send GET request "
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .get("http://localhost:" + port + "/clients/" + client['client_id'])
+        then: "The client is returned"
+        response.then().log().all()
+                .statusCode(200)
+
+        def body = response.as(BaseClientDetails)
+
+        assert body.getClientId().equals(client['client_id'])
+        assert body.getScope().equals(client['scope'].split(',').collect { it as String }.toSet())
+        assert body.getAuthorizedGrantTypes().equals(client['authorized_grant_types'].split(',').collect {
+            it as String
+        }.toSet())
+        assert body.getAuthorities().equals(client['authorities'].split(',').collect { it -> new SimpleGrantedAuthority(it) })
+        assert body.getAccessTokenValiditySeconds().equals(client['access_token_validity'])
+        assert body.getRefreshTokenValiditySeconds().equals(client['refresh_token_validity'])
+        assert body.getAdditionalInformation() != null && !body.getAdditionalInformation().isEmpty()
+        assert body.getAdditionalInformation().get("detail1").equals(client['detail1'])
+        assert body.getAdditionalInformation().get("detail2").equals(client['detail2'])
+
+    }
+
+    def "That can return list of clients"() {
+        //given: "An existing client"
+        when: "Send GET request "
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .get("http://localhost:" + port + "/clients")
+        then: "List of clients is returned"
+        response.then().log().all()
+                .statusCode(200)
+
+        def body = response.as(List)
+
+        assert !body.isEmpty()
+    }
+
+    def "That can't create client without client_id"() {
+        given: "A client without client_id"
+        def clientAux = client
+        clientAux.client_id = null
+        when: "Send POST request to create client"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .body(clientAux)
+                .post("http://localhost:" + port + "/clients")
+        then: "The client can't be created"
+        response.then().log().all()
+                .statusCode(500)
+    }
+
+    def "That can't create client without client_secret"() {
+        given: "A client without client_secret"
+        def clientAux = client
+        clientAux.client_secret = null
+        when: "Send POST request to create client"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .body(clientAux)
+                .post("http://localhost:" + port + "/clients")
+        then: "The client can't be created"
+        response.then().log().all()
+                .statusCode(500)
+    }
+
+    def "That can't create client without scope"() {
+        given: "A client without scope"
+        def clientAux = client
+        clientAux.scope = ''
+        when: "Send POST request to create client"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .body(clientAux)
+                .post("http://localhost:" + port + "/clients")
+        then: "The client can't be created"
+        response.then().log().all()
+                .statusCode(500)
+    }
+
+    def "Authenticate without ROLE_ADMIN"() {
+        given: "An existing client"
+        def username2 = "test"
+        def password2 = "secret"
+        when: "The client logs in"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().basic(username2, password2)
+                .post("http://localhost:" + port + "/oauth/token?grant_type=client_credentials")
+        def body = response.as(Map)
+        accessToken = body.get('access_token')
+        then: "The client obtains an access token"
+        response.then().log().all()
+                .statusCode(200)
+
+    }
+
+    def "That can't create client without ROLE_ADMIN"() {
+        given: "A client without scope"
+        //given: "An existing client"
+        when: "Send POST request to create client"
+        def response = given().accept(ContentType.JSON).contentType(ContentType.JSON)
+                .auth().oauth2(accessToken)
+                .body(client2)
+                .post("http://localhost:" + port + "/clients")
+        then: "The client is created correctly and returns"
+        response.then().log().all()
+                .statusCode(403)
+    }
+}
