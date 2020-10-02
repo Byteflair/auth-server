@@ -1,6 +1,3 @@
-endpoints:
-  sensitive: true
-  shutdown.enabled: true
 spring:
   jpa:
     show-sql: false
@@ -8,6 +5,9 @@ spring:
   data.rest:
     returnBodyOnCreate: true
     returnBodyOnupdate: true
+endpoints:
+  sensitive: true
+  shutdown.enabled: true
 keystore:
   path: @keystore.path@
   password: password
@@ -64,6 +64,7 @@ spring:
 spring:
   profiles: pro
   datasource:
+    initialize: false
     host: set host property via env variable
     port: set port property via env variable
     dbname: set dbname property via env variable
@@ -78,7 +79,6 @@ spring:
   jpa:
     show-sql: true
   datasource:
-    #esto solo queremos que ocurra en test. Ejecuta schema-${spring.datasource.platform}.sql y data-${spring.datasource.platform}.sql
     initialize: true
     host: localhost
     dbname: oauth_db
