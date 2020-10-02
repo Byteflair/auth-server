@@ -17,7 +17,7 @@
     <version>1.4.0.RELEASE</version>
   </parent>
   <groupId>com.byteflair</groupId>
-  <artifactId>oauth2-server-common</artifactId>
+  <artifactId>oauth2-server</artifactId>
   <version>0.7-RC</version>
   <distributionManagement>
     <repository>
@@ -32,13 +32,11 @@
     </snapshotRepository>
   </distributionManagement>
   <properties>
-    <destFile>${project.basedir}/target/jacoco-it.exec</destFile>
     <destFile>target/jacoco-it.exec</destFile>
     <docker.skip>false</docker.skip>
     <int.skip>false</int.skip>
     <java.version>1.8</java.version>
     <keystore.path>${project.build.directory}/keystore.jks</keystore.path>
-    <sonar.jacoco.itReportPath>${project.basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
     <sonar.jacoco.itReportPath>target/jacoco-it.exec</sonar.jacoco.itReportPath>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.version>2.7.1</sonar.version>
@@ -261,6 +259,7 @@
         <version>1.4</version>
         <executions>
           <execution>
+            <id>compileTests</id>
             <goals>
               <goal>compile</goal>
               <goal>testCompile</goal>
@@ -366,8 +365,7 @@
       <id>postgresql</id>
       <activation>
         <property>
-          <name>spring.profiles.active</name>
-          <value>postgresql</value>
+          <name>postgresql</name>
         </property>
       </activation>
       <dependencies>
@@ -431,8 +429,7 @@
       <id>mysql</id>
       <activation>
         <property>
-          <name>spring.profiles.active</name>
-          <value>mysql</value>
+          <name>mysql</name>
         </property>
       </activation>
       <dependencies>
